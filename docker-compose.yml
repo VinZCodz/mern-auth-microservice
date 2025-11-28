@@ -1,0 +1,26 @@
+services:
+  auth-service:
+    image: auth-service:dev
+    container_name: auth-service-dev
+    restart: "no"
+
+    build:
+      context: .
+      dockerfile: ./docker/development/Dockerfile
+    
+    ports:
+      - "3000:5501"
+    
+    env_file:
+      - .env
+
+    volumes:
+      # Mount the entire local directory for live updates, dev only.
+      - .:/usr/src/app
+
+      # Anonymous volume to "shadow" the host's node_modules folder. This ensures the container uses the dependencies installed during the Docker build.
+      - /usr/src/app/node_modules
+      
+    # # Directly set single environment variables (if not in .env)
+    # environment:
+    #   NODE_ENV: development

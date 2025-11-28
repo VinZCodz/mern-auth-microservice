@@ -1,0 +1,31 @@
+# Dependencies, Build Artifacts, and Logs
+node_modules
+logs
+dist
+build
+tmp
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+
+# Environment and Security
+.env
+.env.local
+.env.*
+
+# Source Control and Development Setup
+.git
+.gitignore
+.husky
+.vscode
+.idea
+.devcontainer
+
+# Docker Files and OS Junk
+Dockerfile
+docker-compose.yml
+.dockerignore
+.DS_Store
+
+# READMEs
+README.md

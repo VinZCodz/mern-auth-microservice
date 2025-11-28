@@ -1,5 +1,5 @@
 {
-    "name": "service",
+    "name": "auth_service",
     "version": "1.0.0",
     "description": "",
     "main": "src/server.ts",
@@ -10,7 +10,7 @@
         "format:check": "npx prettier . --check",
         "lint:check": "eslint .",
         "lint:fix": "eslint . --fix",
-        "test": "jest --watch --runInBand",
+        "test": "jest --watchAll --runInBand",
         "prepare": "husky"
     },
     "author": "vinzcodz",
