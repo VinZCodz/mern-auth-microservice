@@ -1,0 +1,15 @@
+import { Config } from './config/index.ts'
+import app from './app.ts'
+import logger from './config/logger.ts'
+
+const startServer = () => {
+    const PORT = Config.PORT
+    try {
+        app.listen(PORT, () => logger.info(`Server up and running at ${PORT}`))
+    } catch (error) {
+        logger.warn(error)
+        process.exit(1)
+    }
+}
+
+startServer()
