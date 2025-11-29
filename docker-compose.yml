@@ -9,18 +9,54 @@ services:
             dockerfile: ./docker/development/Dockerfile
 
         ports:
-            - '3000:5501'
-
+            - '5501:5501'
+        
         env_file:
             - .env
-
+        
         volumes:
             # Mount the entire local directory for live updates, dev only.
             - .:/usr/src/app
 
             # Anonymous volume to "shadow" the host's node_modules folder. This ensures the container uses the dependencies installed during the Docker build.
             - /usr/src/app/node_modules
+    
+    postgres-db:
+        image: postgres:latest
+        container_name: postgres-db-dev
+        restart: unless-stopped
 
-        # # Directly set single environment variables (if not in .env)
-        # environment:
-        #   NODE_ENV: development
+        ports:
+            - 5432:5432
+        
+        environment:
+            - POSTGRES_DB=auth_db
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=root
+
+        volumes:
+            - authpgdata:/var/lib/postgresql
+
+    dbgate-client:
+        image: dbgate/dbgate:latest
+        container_name: dbgate-client
+        restart: unless-stopped
+
+        ports:
+            - 3000:3000
+        
+        environment:
+            CONNECTIONS: pgauthdata
+
+            ENGINE_pgauthdata: postgres@dbgate-plugin-postgres
+            LABEL_pgauthdata: PGAuthData
+            SERVER_pgauthdata: postgres-db
+            USER_pgauthdata: root
+            PASSWORD_pgauthdata: root
+            PORT_pgauthdata: 5432
+            DATABASE_mern: auth_db
+
+        depends_on:
+            - postgres-db
+volumes:
+    authpgdata:
