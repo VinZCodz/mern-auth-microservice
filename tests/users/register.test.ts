@@ -38,6 +38,19 @@ describe('POST /auth/register', () => {
             //Assert
             expect(response.headers['content-type']).toContain('json')
         })
+
+        it('should save the user info to database', async () => {
+            //Arrange
+            const usersData = {
+                firstName: 'vin',
+                lastName: 'z',
+                email: 'vinz@hotmail.com',
+                password: 'secrete',
+            }
+
+            //Act
+            await request(app).post('/auth/register').send(usersData)
+        })
     })
 
     describe('Missing fields', () => {})
