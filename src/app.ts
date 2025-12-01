@@ -3,6 +3,7 @@ import express, {
     type Request,
     type Response,
 } from 'express'
+import 'reflect-metadata'
 import { HttpError } from 'http-errors'
 import logger from './config/logger.ts'
 import authRouter from './routes/auth.ts'
