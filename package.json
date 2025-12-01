@@ -1,53 +1,56 @@
 {
-    "name": "auth_service",
-    "version": "1.0.0",
-    "description": "",
-    "main": "src/server.ts",
-    "type": "module",
-    "scripts": {
-        "dev": "nodemon src/server.ts",
-        "format:fix": "npx prettier . --write",
-        "format:check": "npx prettier . --check",
-        "lint:check": "eslint .",
-        "lint:fix": "eslint . --fix",
-        "test": "jest --watchAll --runInBand",
-        "prepare": "husky"
-    },
-    "author": "vinzcodz",
-    "license": "ISC",
-    "devDependencies": {
-        "@eslint/js": "^9.36.0",
-        "@types/express": "^5.0.3",
-        "@types/http-errors": "^2.0.5",
-        "@types/jest": "^30.0.0",
-        "@types/node": "^24.5.2",
-        "@types/supertest": "^6.0.3",
-        "@types/winston": "^2.4.4",
-        "eslint": "^9.36.0",
-        "husky": "^9.1.7",
-        "jest": "^30.2.0",
-        "lint-staged": "^16.2.1",
-        "nodemon": "^3.1.10",
-        "prettier": "3.6.2",
-        "supertest": "^7.1.4",
-        "ts-jest": "^29.4.5",
-        "ts-node": "^10.9.2",
-        "typescript": "^5.9.2",
-        "typescript-eslint": "^8.44.1"
-    },
-    "lint-staged": {
-        "*.ts": [
-            "npm run format:fix",
-            "npm run lint:fix"
-        ]
-    },
-    "dependencies": {
-        "dotenv": "^17.2.2",
-        "express": "^5.1.0",
-        "http-errors": "^2.0.1",
-        "pg": "^8.16.3",
-        "reflect-metadata": "^0.2.2",
-        "typeorm": "^0.3.27",
-        "winston": "^3.18.3"
-    }
+   "name": "auth_service",
+   "version": "1.0.0",
+   "description": "",
+   "main": "src/server.ts",
+   "type": "module",
+   "scripts": {
+      "dev": "cross-env NODE_ENV=dev nodemon src/server.ts",
+      "format:fix": "npx prettier . --write",
+      "format:check": "npx prettier . --check",
+      "lint:check": "eslint .",
+      "lint:fix": "eslint . --fix",
+      "test": "jest --watchAll --runInBand",
+      "prepare": "husky",
+      "start": "ts-node src/index.ts",
+      "typeorm": "typeorm-ts-node-commonjs"
+   },
+   "author": "vinzcodz",
+   "license": "ISC",
+   "devDependencies": {
+      "@eslint/js": "^9.36.0",
+      "@types/express": "^5.0.3",
+      "@types/http-errors": "^2.0.5",
+      "@types/jest": "^30.0.0",
+      "@types/node": "^24.5.2",
+      "@types/supertest": "^6.0.3",
+      "@types/winston": "^2.4.4",
+      "eslint": "^9.36.0",
+      "husky": "^9.1.7",
+      "jest": "^30.2.0",
+      "lint-staged": "^16.2.1",
+      "nodemon": "^3.1.10",
+      "prettier": "3.6.2",
+      "supertest": "^7.1.4",
+      "ts-jest": "^29.4.5",
+      "ts-node": "^10.9.2",
+      "typescript": "^5.9.2",
+      "typescript-eslint": "^8.44.1"
+   },
+   "lint-staged": {
+      "*.ts": [
+         "npm run format:fix",
+         "npm run lint:fix"
+      ]
+   },
+   "dependencies": {
+      "cross-env": "^10.1.0",
+      "dotenv": "^17.2.2",
+      "express": "^5.1.0",
+      "http-errors": "^2.0.1",
+      "pg": "^8.14.1",
+      "reflect-metadata": "^0.2.2",
+      "typeorm": "0.3.27",
+      "winston": "^3.18.3"
+   }
 }
