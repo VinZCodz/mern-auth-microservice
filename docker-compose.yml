@@ -11,9 +11,6 @@ services:
         ports:
             - '5501:5501'
 
-        # env_file:
-        #     - .env
-
         volumes:
             # Mount the entire local directory for live updates, dev only.
             - .:/usr/src/app
@@ -30,7 +27,7 @@ services:
             - 5432:5432
 
         environment:
-            # - POSTGRES_DB=auth_db
+            - POSTGRES_DB=auth_service_dev
             - POSTGRES_USER=root
             - POSTGRES_PASSWORD=root
 
@@ -54,7 +51,6 @@ services:
             USER_pgauthdata: root
             PASSWORD_pgauthdata: root
             PORT_pgauthdata: 5432
-            # DATABASE_pgauthdata: auth_db
 
         depends_on:
             - postgres-db

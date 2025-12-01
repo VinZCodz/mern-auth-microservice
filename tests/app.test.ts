@@ -1,6 +1,6 @@
-import calculateDiscount from './src/utils.ts'
+import calculateDiscount from '../src/utils.ts'
 import request from 'supertest'
-import app from './src/app.ts'
+import app from '../src/app.ts'
 
 describe('App', () => {
     it('should return correct discount amount', () => {

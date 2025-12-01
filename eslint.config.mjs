@@ -6,7 +6,7 @@ export default defineConfig(
     eslint.configs.recommended,
     ...tseslint.configs.recommendedTypeChecked,
     {
-        ignores: ['eslint.config.mjs', 'jest.config.js', '**/*.test.ts'],
+        ignores: ['eslint.config.mjs', 'jest.config.js', 'tests/**/*'],
     },
     {
         languageOptions: {
