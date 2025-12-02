@@ -15,12 +15,6 @@ beforeEach(async () => {
     await truncateTables(dataSource)
 })
 
-afterAll(async () => {
-    if (dataSource?.destroy) {
-        await dataSource.destroy()
-    }
-})
-
 describe('POST /auth/register', () => {
     describe('Given all fields', () => {
         it('should return 201 status code', async () => {
@@ -76,8 +70,17 @@ describe('POST /auth/register', () => {
             const users = await userTable.find()
 
             expect(users).toHaveLength(1)
+            expect(users[0].firstName).toBe(usersData.firstName)
+            expect(users[0].lastName).toBe(usersData.lastName)
+            expect(users[0].email).toBe(usersData.email)
         })
     })
 
     describe('Missing fields', () => {})
+})
+
+afterAll(async () => {
+    if (dataSource?.destroy) {
+        await dataSource.destroy()
+    }
 })

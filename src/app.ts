@@ -9,6 +9,7 @@ import logger from './config/logger.ts'
 import authRouter from './routes/auth.ts'
 
 const app = express()
+app.use(express.json())
 
 app.get('/', (req, res) => {
     return res.send('Welcome to Authentication endpoints!')
