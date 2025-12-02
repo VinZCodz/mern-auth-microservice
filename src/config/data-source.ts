@@ -12,8 +12,8 @@ export const AppDataSource = new DataSource({
     password: Config.DB_PASSWORD!,
     database: Config.DB_NAME!,
 
-    //synchronize should be turned off for production
-    synchronize: Config.NODE_ENV !== 'prod',
+    //should be turned off.
+    synchronize: false,
 
     logging: false,
     entities: [User],

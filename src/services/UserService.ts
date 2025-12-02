@@ -1,6 +1,7 @@
 import type { Repository } from 'typeorm'
 import type { UserData } from '../types'
 import type { User } from '../entity/User'
+import { Roles } from '../constants'
 
 export class UserService {
     constructor(private readonly userRepository: Repository<User>) {}
@@ -16,6 +17,7 @@ export class UserService {
             lastName,
             email,
             password,
+            role: Roles.CUSTOMER,
         })
     }
 }

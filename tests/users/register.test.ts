@@ -2,8 +2,7 @@ import request from 'supertest'
 import app from '../../src/app'
 import { AppDataSource } from '../../src/config/data-source.ts'
 import { DataSource } from 'typeorm'
-import { User } from '../../src/entity/User.ts'
-import { truncateTables } from '../utils/index.ts'
+import { Roles } from '../../src/constants'
 
 let dataSource: DataSource
 
@@ -12,7 +11,9 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
-    await truncateTables(dataSource)
+    await dataSource.dropDatabase()
+    await dataSource.synchronize()
+    // await truncateTables(dataSource)
 })
 
 describe('POST /auth/register', () => {
@@ -95,6 +96,26 @@ describe('POST /auth/register', () => {
 
             expect(response.body).toHaveProperty('id')
             expect(response.body.id).toBe(users[0].id)
+        })
+
+        it('should assign customer role to user', async () => {
+            //Arrange
+            const usersData = {
+                firstName: 'vin',
+                lastName: 'z',
+                email: 'vinz@hotmail.com',
+                password: 'secrete',
+            }
+
+            //Act
+            await request(app).post('/auth/register').send(usersData)
+
+            //Assert
+            const userTable = dataSource.getRepository(User)
+            const users = await userTable.find()
+
+            expect(users[0]).toHaveProperty('role')
+            expect(users[0].role).toBe(Roles.CUSTOMER)
         })
     })
 
