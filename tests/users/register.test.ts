@@ -74,6 +74,28 @@ describe('POST /auth/register', () => {
             expect(users[0].lastName).toBe(usersData.lastName)
             expect(users[0].email).toBe(usersData.email)
         })
+
+        it('should return the id of the persisted user', async () => {
+            //Arrange
+            const usersData = {
+                firstName: 'vin',
+                lastName: 'z',
+                email: 'vinz@hotmail.com',
+                password: 'secrete',
+            }
+
+            //Act
+            const response = await request(app)
+                .post('/auth/register')
+                .send(usersData)
+
+            //Assert
+            const userTable = dataSource.getRepository(User)
+            const users = await userTable.find()
+
+            expect(response.body).toHaveProperty('id')
+            expect(response.body.id).toBe(users[0].id)
+        })
     })
 
     describe('Missing fields', () => {})
