@@ -3,6 +3,7 @@ import app from '../../src/app'
 import { AppDataSource } from '../../src/config/data-source.ts'
 import { DataSource } from 'typeorm'
 import { Roles } from '../../src/constants'
+import { User } from '../../src/entity/User.ts'
 
 let dataSource: DataSource
 
@@ -67,8 +68,8 @@ describe('POST /auth/register', () => {
             await request(app).post('/auth/register').send(usersData)
 
             //Assert
-            const userTable = dataSource.getRepository(User)
-            const users = await userTable.find()
+            const userRepository = dataSource.getRepository(User)
+            const users = await userRepository.find()
 
             expect(users).toHaveLength(1)
             expect(users[0].firstName).toBe(usersData.firstName)
@@ -91,8 +92,8 @@ describe('POST /auth/register', () => {
                 .send(usersData)
 
             //Assert
-            const userTable = dataSource.getRepository(User)
-            const users = await userTable.find()
+            const userRepository = dataSource.getRepository(User)
+            const users = await userRepository.find()
 
             expect(response.body).toHaveProperty('id')
             expect(response.body.id).toBe(users[0].id)
@@ -111,11 +112,55 @@ describe('POST /auth/register', () => {
             await request(app).post('/auth/register').send(usersData)
 
             //Assert
-            const userTable = dataSource.getRepository(User)
-            const users = await userTable.find()
+            const userRepository = dataSource.getRepository(User)
+            const users = await userRepository.find()
 
             expect(users[0]).toHaveProperty('role')
             expect(users[0].role).toBe(Roles.CUSTOMER)
+        })
+
+        it('should save hashed pw of the user', async () => {
+            //Arrange
+            const usersData = {
+                firstName: 'vin',
+                lastName: 'z',
+                email: 'vinz@hotmail.com',
+                password: 'secrete',
+            }
+
+            //Act
+            await request(app).post('/auth/register').send(usersData)
+
+            //Assert
+            const userRepository = dataSource.getRepository(User)
+            const users = await userRepository.find()
+
+            expect(users[0].password).not.toBe(usersData.password)
+            expect(users[0].password).toHaveLength(60)
+            expect(users[0].password).toMatch(/^\$2b\$\d+\$/)
+        })
+
+        it('should return 400 status code if email of the user exists', async () => {
+            //Arrange
+            const usersData = {
+                firstName: 'vin',
+                lastName: 'z',
+                email: 'vinz@hotmail.com',
+                password: 'secrete',
+            }
+            const userRepository = dataSource.getRepository(User)
+            await userRepository.save({ ...usersData, role: Roles.CUSTOMER })
+
+            //Act
+            const response = await request(app)
+                .post('/auth/register')
+                .send(usersData)
+
+            //Assert
+            expect(response.statusCode).toBe(400)
+
+            const users = await userRepository.find()
+            expect(users).toHaveLength(1)
         })
     })
 
